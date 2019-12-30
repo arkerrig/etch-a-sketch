@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Etch a Sketch Title</title>
+    <link rel="stylesheet" href="style.css">  
+</head>
+<body>
+    Making an Etch a Sketch Game
+    <div id = "reset">
+        <button id = "resetButton">Reset</button>
+    </div>
+    <div id = "container"></div>
+</body>
+</html>
+
+
+<script>
+
+var numOfSquares = promptUserNumSquares();
+var sizeOfGrid = promptUserGridSize();
+var colorOfHighlight = promptUserHighlightColor();
+
+runback(numOfSquares, sizeOfGrid, colorOfHighlight);
+
+function promptUserNumSquares(){ // intial prompt to get number of squares wide and high for grid
+    var squaresPR = prompt("How many squares wide?");
+    return squaresPR;
+}
+
+function promptUserGridSize(){ // second prompt for total pixel width and height of grid
+    var gridSizePR = prompt("How big of a grid?");
+    return gridSizePR;
+}
+
+function promptUserHighlightColor(){ // third prompt for mouseover color
+    var highlightColorPR = prompt("What color?");
+    return highlightColorPR;
+}
+
+function runback(numSquares, gridSize, highlightColor) { //numSquares is squares wide and high; gridSize is total width and height of full grid in px
+
+    
+    var squareWidth = gridSize / numSquares;
+    
+
+    const container = document.querySelector('#container');
+    container.style.border = "1px solid black";
+    container.style.width = gridSize + "px";
+    container.style.height = gridSize + "px";
+ 
+    for(y=0; y<numSquares; y++){ //loop to create 16 rows of 16 li
+        const gridList = document.createElement('ul');
+        gridList.style.listStyleType = "none";
+        gridList.style.width = gridSize + "px";
+        gridList.style.height = squareWidth + "px";
+        gridList.style.padding = "0";
+
+  
+        for (x=0; x<numSquares; x++){
+            const listPart = document.createElement('li');
+            listPart.style.cssFloat = "left";
+
+            listPart.style.minHeight = squareWidth + "px";
+            listPart.style.minWidth = squareWidth + "px";
+
+            listPart.style.backgroundColor = "gray";
+            listPart.id = "artBlock X" + x + "Y" + y;
+
+            gridList.appendChild(listPart, gridList);
+
+            listPart.addEventListener("mouseover", function( e ) {   // change box color on mouseover
+                e.target.style.backgroundColor = highlightColor;
+            });
+        }
+  
+        container.appendChild(gridList, container); // attach each 'ul' to container
+
+    }
+}
+
+const button = document.querySelector('#resetButton'); // reloads page on button click
+button.addEventListener('click', (e) => {
+
+    document.location.reload(true);
+});
+</script>
